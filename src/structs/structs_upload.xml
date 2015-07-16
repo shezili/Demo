@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
+
+	<package name="osfile" extends="struts-default,json-default">
+
+		<!-- 配置处理文件上传的Action -->
+		<action name="uploadPro" class="web.UploadAction">
+			<!-- 配置fileUpload的拦截器 -->
+			<interceptor-ref name="fileUpload">
+				<!-- 配置允许上传的文件类型 -->
+				<param name="allowedTypes">image/png
+					,image/gif,image/jpeg,text/plain
+				</param>
+				<param name="maximumSize">1048576</param>
+			</interceptor-ref>
+			<!-- 配置系统默认的拦截器 -->
+			<interceptor-ref name="defaultStack" />
+			<!-- 动态设置Action的属性值 -->
+			<param name="savePath">/island_data</param>
+
+			<result>succ.jsp</result>
+			<result name="input">upload.jsp</result>
+
+		</action>
+
+		<action name="file!*" method="{1}" class="web.OperationFileAction">
+			<result type="json">
+				<param name="root">result</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+		
+		<action name="getIslandName" class="web.GetIslandInfoAction" method="getName">
+			<result type="json">
+				<param name="root">result</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+		
+		<action name="getIslandNumber" class="web.GetIslandInfoAction" method="getNumber">
+			<result type="json">
+				<param name="root">result</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+		
+
+	</package>
+</struts>    

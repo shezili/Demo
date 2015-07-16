@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>Demo</display-name>
+  <context-param>
+    <param-name>GEO_URL</param-name>
+    <param-value>http://192.168.1.100:7777/geoserver/wcs</param-value>
+  </context-param>
+  <context-param>
+    <param-name>EDIT_ATTRIBUTE_URL</param-name>
+    <param-value>http://192.168.1.100:7777/geoserver/wfs</param-value>
+  </context-param>
+  <context-param>
+    <param-name>WORKSPACE</param-name>
+    <param-value>test</param-value>
+  </context-param>
+  <context-param>
+    <param-name>FILEATTRIBUTE</param-name>
+    <param-value>FILE_NAME</param-value>
+  </context-param>
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <listener>
+    <listener-class>listener.MyListener</listener-class>
+  </listener>
+  <servlet>
+    <description>JAX-RS Tools Generated - Do not modify</description>
+    <servlet-name>JAX-RS Servlet</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JAX-RS Servlet</servlet-name>
+    <url-pattern>/jaxrs/*</url-pattern>
+  </servlet-mapping>
+</web-app>

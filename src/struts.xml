@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<!-- 在struts.xml配置文件中加入排除过滤的地址 ,防止将webservice当作action处理 -->
+	<constant name="struts.action.excludePattern" value="/jaxrs.*" />
+
+
+	<package name="she" extends="struts-default,json-default">
+		<action name="download" class="web.DownloadAction">
+			<result type="json">
+				<param name="root">returnLink</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+		<action name="thumbnail" class="web.Thumbnail" method="showThumbnail">
+			<result type="json">
+				<param name="root">result</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+		<action name="setMainPicture" class="web.Thumbnail" method="setMainPicture">
+			<result type="json">
+				<param name="root">setResult</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+		<action name="dateInterval" class="web.DateInterval">
+			<result type="json">
+				<param name="root">resultArray</param>
+				<param name="noCache">true</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+
+		<action name="easyuUIGetCal" class="web.CalculateInfoAction"
+			method="findCalPageDataJson">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getReport1" class="web.ReportAction"
+			method="getReport1">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="updateShpAttribute" class="web.shpEditAction"
+			method="updateAttribute">
+			<result type="json">
+				<param name="root">updateFlag</param>
+			</result>
+		</action>
+		
+		<action name="getAttributesValue" class="web.shpEditAction"
+			method="getAttributesValue">
+			<result type="json">
+				<param name="root">feature</param>
+			</result>
+		</action>
+
+	</package>
+	<include file="structs/structs_upload.xml" />
+</struts>    
