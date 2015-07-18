@@ -11,6 +11,9 @@
 	上传成功!<br/>
 	文件标题:<s:property value=" + uploadFileName"/><br/>
 	<a href="upload.jsp">继续上传文件</a>
-
+<form  action = "testMetaData">
+    <input type="text" name="mapName">
+    <button type="submit">Submit</button>
+</form>
 </body>
 </html>

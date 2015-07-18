@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd "
+	xmlns:tx="http://www.springframework.org/schema/tx">
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.1.100:1521:SSRSDB" />
+		<property name="user" value="system" />
+		<property name="password" value="system" />
+		<property name="maxPoolSize" value="15" />
+		<property name="minPoolSize" value="10" />
+		<property name="initialPoolSize" value="10" />
+		<property name="idleConnectionTestPeriod" value="60" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.OracleDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>bean/Tabbackup.hbm.xml</value>
+				<value>bean/Tabdatatype.hbm.xml</value>
+				<value>bean/Tabdepartment.hbm.xml</value>
+				<value>bean/TabidentifierInformation.hbm.xml</value>
+				<value>bean/Tabplane.hbm.xml</value>
+				<value>bean/Tabplanefortask.hbm.xml</value>
+				<value>bean/Tabproject.hbm.xml</value>
+				<value>bean/Tabproresult.hbm.xml</value>
+				<value>bean/Tabresultdata.hbm.xml</value>
+				<value>bean/Tabresultdatafolder.hbm.xml</value>
+				<value>bean/Tabresultdatataskmap.hbm.xml</value>
+				<value>bean/Tabresultmetadata.hbm.xml</value>
+				<value>bean/Tabrsproductstatus.hbm.xml</value>
+				<value>bean/Tabrstask.hbm.xml</value>
+				<value>bean/Tabspacialdescription.hbm.xml</value>
+				<value>bean/Tabsurveydistrict.hbm.xml</value>
+				<value>bean/Tabtaskdatastatus.hbm.xml</value>
+				<value>bean/Tabtaskprojectmap.hbm.xml</value>
+				<value>bean/Tabtasksurveydistrictmap.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="merge*" propagation="REQUIRED" />
+			<tx:method name="del*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="put*" propagation="REQUIRED" />
+			<tx:method name="use*" propagation="REQUIRED" />
+			<!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到 -->
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="count*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="list*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config proxy-target-class="true">
+		<aop:advisor pointcut="(execution(* dao.*.*(..))) OR execution(* dao.*.*(..))"
+			advice-ref="txAdvice" />
+	</aop:config>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- enable bean scan -->
+	<context:component-scan base-package="service">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	
+	<bean id="TabresultdatataskmapDAO" class="dao.TabresultdatataskmapDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabtaskprojectmapDAO" class="dao.TabtaskprojectmapDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabspacialdescriptionDAO" class="dao.TabspacialdescriptionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabidentifierInformationDAO" class="dao.TabidentifierInformationDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabplanefortaskDAO" class="dao.TabplanefortaskDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabrstaskDAO" class="dao.TabrstaskDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabbackupDAO" class="dao.TabbackupDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabresultdataDAO" class="dao.TabresultdataDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabprojectDAO" class="dao.TabprojectDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabprotaskDAO" class="dao.TabprotaskDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabplaneDAO" class="dao.TabplaneDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabrsproductstatusDAO" class="dao.TabrsproductstatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabsurveydistrictDAO" class="dao.TabsurveydistrictDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabproresultDAO" class="dao.TabproresultDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabtasksurveydistrictmapDAO" class="dao.TabtasksurveydistrictmapDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabresultmetadataDAO" class="dao.TabresultmetadataDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabdepartmentDAO" class="dao.TabdepartmentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabresultdatafolderDAO" class="dao.TabresultdatafolderDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabtaskdatastatusDAO" class="dao.TabtaskdatastatusDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabdatatypeDAO" class="dao.TabdatatypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+</beans>

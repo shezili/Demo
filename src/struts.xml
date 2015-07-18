@@ -69,5 +69,7 @@
 		</action>
 
 	</package>
+	
 	<include file="structs/structs_upload.xml" />
+	<include file="structs/structs_metadata.xml" />
 </struts>    
