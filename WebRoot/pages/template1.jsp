@@ -25,12 +25,12 @@
 			">
 		<thead>
 			<tr>
-				<th data-options="field:'number',editor:'text',styler:style_1" width="5%">编号</th>
-				<th data-options="field:'area',editor:'text',styler:style_2" width="10%">区域</th>
-				<th data-options="field:'location',editor:'text',styler:style_3" width="15%">位置</th>
-				<th data-options="field:'description',editor:'text',styler:style_4" width="20%">变化描述</th>
-				<th data-options="field:'image1',editor:'text',styler:style_5" width="25%">2010年9月影像</th>
-				<th data-options="field:'image2',editor:'text',styler:style_6" width="25%">2012年4月影像</th>
+				<th data-options="field:'number',editor:'text'" width="5%">编号</th>
+				<th data-options="field:'area',editor:'text'" width="10%">区域</th>
+				<th data-options="field:'location',editor:'text'" width="15%">位置</th>
+				<th data-options="field:'description',editor:'text'" width="20%">变化描述</th>
+				<th data-options="field:'image1',editor:'text'" width="25%">2010年9月影像</th>
+				<th data-options="field:'image2',editor:'text'" width="25%">2012年4月影像</th>
 			</tr>
 		</thead>
 	</table>
@@ -44,27 +44,42 @@
 		<a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-print',plain:true" onclick="preview(1)">Print</a>
 	</div>
 	
-	
+	<table border="1">
+<tr>
+<th>Heading</th>
+<th>Another Heading</th>
+</tr>
+<tr>
+<td>row 1, cell 1</td>
+<td>row 1, cell 2</td>
+</tr>
+<tr>
+<td>row 2, cell 1</td>
+<td>row 2, cell 2</td>
+</tr>
+</table>l
 	<script type="text/javascript">
+		var ps = $('th');
+		ps.css('background-color', '#ffd351').css('color', 'red');
 
-		function style_1(value, row, index) {
-			return 'font-size: 20px;';
-		}
-		function style_2(value, row, index) {
-			return 'font-size: 20px;';
-		}
-		function style_3(value, row, index) {
-			return 'font-size: 20px;';
-		}
-		function style_4(value, row, index) {
-			return 'font-size: 20px;';
-		}
-		function style_5(value, row, index) {
-			return 'font-size: 20px;';
-		}
-		function style_6(value, row, index) {
-			return 'font-size: 20px;';
-		}
+// 		function style_1(value, row, index) {
+// 			return 'fontSize: 20px;';
+// 		}
+// 		function style_2(value, row, index) {
+// 			return 'fontSize: 20px;';
+// 		}
+// 		function style_3(value, row, index) {
+// 			return 'fontSize: 20px;';
+// 		}
+// 		function style_4(value, row, index) {
+// 			return 'font-size: 20px;';
+// 		}
+// 		function style_5(value, row, index) {
+// 			return 'font-size: 20px;';
+// 		}
+// 		function style_6(value, row, index) {
+// 			return 'font-size: 20px;';
+// 		}
 
 		var editIndex = undefined;
 		function endEditing() {
