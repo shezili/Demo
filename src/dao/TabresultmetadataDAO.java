@@ -124,20 +124,40 @@ public class TabresultmetadataDAO {
 		return findByProperty(MAP_NAME, mapName);
 	}
 	
-	public List fuzzyQueryByMapName(Object mapName){
+	public List fuzzyQueryByMapName(Object mapName, int first,int max){
 		log.debug("fuzzy finding Tabresultmetadata instance with property: MAP_NAME"
 				+ ", value: " + mapName);
 		try {
-			//System.out.println("进入dao，传入的参数是："+mapName);
+			System.out.println("进入dao，传入的参数是："+mapName);
 			mapName = "'%" + mapName + "%'";  
 			String queryString = "from Tabresultmetadata as model where model."
 					+ MAP_NAME + " like "+mapName;
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			//queryObject.setParameter(0, mapName);
-			//System.out.println(queryString);
+			System.out.println(queryString);
+			queryObject.setFirstResult(first); 
+			System.out.println("set first");
+			queryObject.setMaxResults(max); 
+			System.out.println("set max");
 			return queryObject.list();
 		} catch (RuntimeException re) {
 			log.error("fuzzy find by property name failed", re);
+			throw re;
+		}
+	}
+	
+	public long querySizeOfFixedMapName(Object mapName){
+		log.debug("fuzzy finding Szie of Tabresultmetadata instance with property: MAP_NAME"
+				+ ", value: " + mapName);
+		try {
+			mapName = "'%" + mapName + "%'";  
+			String queryString = "from Tabresultmetadata as model where model."
+					+ MAP_NAME + " like "+mapName;
+			long count = getCurrentSession().createQuery(queryString).list().size();
+			System.out.println("查询出的数目为："+count);
+			return count;
+		} catch (RuntimeException re) {
+			log.error("fuzzy find Szie by property name failed", re);
 			throw re;
 		}
 	}

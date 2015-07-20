@@ -17,7 +17,6 @@ public class CalculateInfoAction {
 
 	private String page;
 	
-	
 	public String findCalPageDataJson(){
 		int intPage = Integer.parseInt((page == null || page == "0") ? "1"
 				: page);
