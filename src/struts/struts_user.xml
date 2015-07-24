@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="user" extends="struts-default">
+		<action name="login" class="action.LoginAction" method="login">
+			<result name="loginsuccess">login.jsp</result>
+		</action>
+		
+		<action name="logout" class="action.LoginAction" method="logout">
+			<result name="logoutsuccess">login.jsp</result>
+		</action>
+		
+		<action name="jump" class="action.LoginAction" method="jump">
+			<result name="jumpsuccess">temp.jsp</result>
+		</action>
+
+		
+	</package>
+</struts>    

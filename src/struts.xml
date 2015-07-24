@@ -68,12 +68,11 @@
 			</result>
 		</action>
 		
-		<action name="login" class="action.LoginAction" method="getName">
-			<result name="ok">login.jsp</result>
-		</action>
+	
 
 	</package>
 	
 	<include file="struts/struts_upload.xml" />
 	<include file="struts/struts_metadata.xml" />
+	<include file="struts/struts_user.xml" />
 </struts>    
