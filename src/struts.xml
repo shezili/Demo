@@ -74,6 +74,6 @@
 
 	</package>
 	
-	<include file="structs/structs_upload.xml" />
-	<include file="structs/structs_metadata.xml" />
+	<include file="struts/struts_upload.xml" />
+	<include file="struts/struts_metadata.xml" />
 </struts>    
