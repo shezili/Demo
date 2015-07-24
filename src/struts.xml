@@ -67,6 +67,10 @@
 				<param name="root">feature</param>
 			</result>
 		</action>
+		
+		<action name="login" class="action.LoginAction" method="getName">
+			<result name="ok">login.jsp</result>
+		</action>
 
 	</package>
 	

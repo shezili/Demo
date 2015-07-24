@@ -52,6 +52,10 @@
 				<value>bean/Tabtaskdatastatus.hbm.xml</value>
 				<value>bean/Tabtaskprojectmap.hbm.xml</value>
 				<value>bean/Tabtasksurveydistrictmap.hbm.xml</value>
+				<value>bean/TabPrivlege.hbm.xml</value>
+				<value>bean/TabRole.hbm.xml</value>
+				<value>bean/TabRoleprivlege.hbm.xml</value>
+				<value>bean/TabUser.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -91,9 +95,9 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
 	<!-- enable bean scan -->
-	<context:component-scan base-package="service">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="service" use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
 	
 	<bean id="TabresultdatataskmapDAO" class="dao.TabresultdatataskmapDAO">
@@ -196,4 +200,23 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-</beans>
+	<bean id="TabPrivlegeDAO" class="dao.TabPrivlegeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabUserDAO" class="dao.TabUserDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabRoleDAO" class="dao.TabRoleDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="TabRoleprivlegeDAO" class="dao.TabRoleprivlegeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>
