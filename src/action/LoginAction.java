@@ -23,11 +23,13 @@ public class LoginAction {
 	
 	private String password;
 	
+	private String result;
+	
 	public String login(){
 		System.out.println("name:"+name+"   "+"password:"+password);
-		String info = loginService.getUserName(name,password);
-		System.out.println(info);
-		return "loginsuccess";
+		result = loginService.getUserName(name,password);
+		System.out.println(result);
+		return "success";
 	}
 	
 	public String logout(){
@@ -79,6 +81,20 @@ public class LoginAction {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	
 
 	
 }

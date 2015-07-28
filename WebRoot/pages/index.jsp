@@ -77,7 +77,8 @@
 				<div title="变化检测"  style="padding:10px;">
 					content2</div>
 				<div title="海岛数据" style="padding:10px">
-					<a class="easyui-linkbutton c8" style="width:70px" onclick="changesrc('osfile.jsp');">添加数据</a>
+					<a class="easyui-linkbutton c1" style="width:70px" onclick="changesrc('osfile.jsp');">添加数据</a>
+					<a class="easyui-linkbutton c2" style="width:70px" onclick="changesrc('metadata.jsp');">数据查询</a>
 				</div>
 				<div title="报告报表" style="padding:10px">content3</div>
 			</div>

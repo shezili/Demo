@@ -1,8 +1,6 @@
 package listener;
 
 import java.util.Enumeration;
-import java.util.Properties;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
