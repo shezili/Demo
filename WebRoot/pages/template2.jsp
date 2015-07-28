@@ -7,7 +7,7 @@
 <title>My JSP 'tijiao.jsp' starting page</title>
 
 <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="../js/template2.js"></script>
+<script type="text/javascript" src="../js/template3.js"></script>
 </head>
 <body>
 
@@ -49,21 +49,19 @@
 					<td colspan="2" id="jingwei"><div align="center"></div></td>
 				</tr>
 				<tr>
-					<td height="60"><div align="center">情况描述</div></td>
+					<th height="60"><div align="center">情况描述</div></td>
 					<td colspan="6" id="situation"><div align="center"></div></td>
 				</tr>
 				<tr>
-					<td height="235"><div align="center">附图</div></td>
+					<th height="235"><div align="center">附图</div></td>
 					<%--上传且显示图片 --%>
-					<td colspan="6"><div align="center"></div>
-						<P id="df">
-							<input type="file" name="file" id="file0"
-								onchange="preview(this.files[0],0)" multiple="multiple">
-							<br> <img src=""  width="99%" id="img0">
-						</P>
+					<th colspan="6"><div align="center"></div>
+						<input type="file" name="file" id="file0" onchange="preview(this.files[0],0)" multiple="multiple">
+							<br> <img src=""  width="99%" id="img0"></th>
+						
 				</tr>
 				<tr>
-					<td rowspan="3"><div align="center">
+					<th rowspan="3"><div align="center">
 							<strong>情况反馈</strong>
 						</div></td>
 					<td><div align="center">项目名称</div></td>
