@@ -2,14 +2,15 @@ package action;
 
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionContext;
-
 import service.QueryReportService;
 import bean.LawenforcementReport;
 
-public class GetReportAction {
+public class ReportAction {
 
 	@Autowired
 	private QueryReportService qService;
@@ -19,6 +20,8 @@ public class GetReportAction {
 	private String number;
 
 	private LawenforcementReport lReport;
+	
+	private String jsonString;
 
 	public String getReport() {
 		ActionContext context = ActionContext.getContext();
@@ -28,19 +31,20 @@ public class GetReportAction {
 			
 		lReport = qService.findLawenforcementReport(number);
 		request.put("lReport", lReport);
-	 //System.out.println(this.toString());
-//		Method[] methods = lReport.getClass().getMethods();
-//		for(Method method : methods){
-//			if(method.getName().startsWith("set")){
-//				try {
-//					method.invoke(lReport, "insert");
-//				}  catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-		//System.out.println(lReport.toString());
+		return "success";
+	}
+	
+	private String result;
+	
+	public String updateReport(){
+		System.out.println("===================started======================");
+//		lReport.setPictureUrl("Ö´ÐÐ¹ýÁË");
+//		qService.updateReport(lReport);
+		//System.out.println(jsonString);
+		JSONObject obj = new JSONObject().fromObject(jsonString);
+		LawenforcementReport praReport = (LawenforcementReport)JSONObject.toBean(obj,LawenforcementReport.class);
+		System.out.println(praReport.toString());
+		result = qService.updateReport(praReport);
 		return "success";
 	}
 
@@ -76,11 +80,23 @@ public class GetReportAction {
 		this.lReport = lReport;
 	}
 
-	@Override
-	public String toString() {
-		return "GetReportAction [qService=" + qService + ", type=" + type
-				+ ", number=" + number + ", lReport=" + lReport + "]";
+	public String getResult() {
+		return result;
 	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public String getJsonString() {
+		return jsonString;
+	}
+
+	public void setJsonString(String jsonString) {
+		this.jsonString = jsonString;
+	}
+
+	
 	
 	
 }

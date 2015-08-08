@@ -9,9 +9,15 @@
 				<param name="root">result</param>
 			</result>
 		</action>
-		
-		<action name="getReport" class="action.GetReportAction" method="getReport">
+
+		<action name="getReport" class="action.ReportAction" method="getReport">
 			<result name="success">template2.jsp</result>
+		</action>
+
+		<action name="updateReport" class="action.ReportAction" method="updateReport">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
 		</action>
 
 	</package>

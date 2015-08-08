@@ -16,6 +16,13 @@ public class QueryReportService {
 		LawenforcementReport lReport = lawenforcementReportDAO.findById(number);
 		return lReport;
 	}
+	
+	public String updateReport(LawenforcementReport lReport){
+		System.out.println("===========service============");
+		System.out.println(lReport.toString());
+		lawenforcementReportDAO.attachDirty(lReport);
+		return "success";
+	}
 
 	public LawenforcementReportDAO getLawenforcementReportDAO() {
 		return lawenforcementReportDAO;
