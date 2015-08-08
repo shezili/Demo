@@ -56,6 +56,7 @@
 				<value>bean/TabRole.hbm.xml</value>
 				<value>bean/TabRoleprivlege.hbm.xml</value>
 				<value>bean/TabUser.hbm.xml</value>
+				<value>bean/LawenforcementReport.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -216,6 +217,12 @@
 		</property>
 	</bean>
 	<bean id="TabRoleprivlegeDAO" class="dao.TabRoleprivlegeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="LawenforcementReportDAO"
+		class="dao.LawenforcementReportDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

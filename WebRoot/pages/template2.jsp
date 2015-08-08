@@ -1,92 +1,104 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>My JSP 'tijiao.jsp' starting page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>&nbsp;</title>
 
 <script type="text/javascript" src="../js/jquery-1.6.2.min.js"></script>
 <script type="text/javascript" src="../js/template3.js"></script>
+<script type="text/javascript">
+	function test() {
+		alert(document.getElementById("datestr").innerText);
+	}
+</script>
+<style type="text/css">
+tr {
+	text-align: center;
+}
+</style>
 </head>
 <body>
-
-
 	<p>&nbsp;</p>
-	<p>&nbsp;</p>
-
-
 	<h2 align="center">
-		<img src="imgs/tubiao.jpg" alt="logo" width="79" height="78"
+		<img src="../island_data/logo.jpg" alt="logo" width="79" height="78"
 			hspace="12" align="absmiddle" />南海区<strong>“空-地”行政执法情况通报和反馈表</strong>
 	</h2>
-	<div align="center">编号： 20141231GX020</div>
 	<div align="center">
-		<form action="" method=post name=form>
+		<table>
+			<tr>
+				<th>编号：
+				</td>
+				<td>${requestScope.lReport.reportnumber}</td>
+			</tr>
+		</table>
+	</div>
+	<div align="center">
 			<table width="742" height="772" border="1" cellpadding="0"
 				cellspacing="0">
-
 				<tr>
-					<td width="94"><div align="center">日期</div></td>
-					<td width="169" id="date"><div align="center"></div></td>
-					<td width="59"><div align="center">机号</div></td>
-					<td colspan="2" id="flight"><div align="center"></div></td>
-					<td width="54"><div align="center">机场</div></td>
-					<td width="167" id="airport"><div align="center"></div></td>
+					<th width="15%">日期</th>
+					<td width="20%" id="datestr">${requestScope.lReport.datestr}</td>
+					<th width="15%">机号</th>
+					<td width="20%" id="machinenumber">
+						${requestScope.lReport.machinenumber}</td>
+					<th width="15%">机场</th>
+					<td width="15%" colspan="2" id="airport">${requestScope.lReport.airport}</td>
 				</tr>
 				<tr>
-					<td><div align="center">航  线</div></td>
-					<td colspan="6" id="route"><div align="center"></div></td>
+					<th>航  线</th>
+					<td colspan="6" id="route">${requestScope.lReport.route}</td>
 				</tr>
 				<tr>
-					<td><div align="center">项目名称</div></td>
-					<td colspan="6" id="name"><div align="center"></div></td>
+					<th>项目名称</th>
+					<td colspan="6" id="projectname">
+						${requestScope.lReport.projectname}</td>
 				</tr>
 				<tr>
-					<td><div align="center">项目位置</div></td>
-					<td colspan="3" id="location"><div align="center"></div></td>
-					<td width="94"><div align="center">经纬度坐标</div></td>
-					<td colspan="2" id="jingwei"><div align="center"></div></td>
+					<th>项目位置</th>
+					<td colspan="2" id="projectlocation">
+						${requestScope.lReport.projectlocation}</td>
+					<th width="94">经纬度坐标</th>
+					<td colspan="3" id="latlon">${requestScope.lReport.latlon}</td>
 				</tr>
 				<tr>
-					<th height="60"><div align="center">情况描述</div></td>
-					<td colspan="6" id="situation"><div align="center"></div></td>
+					<th height="60">情况描述</th>
+					<td colspan="6" id="description">${requestScope.lReport.description}</td>
 				</tr>
 				<tr>
-					<th height="235"><div align="center">附图</div></td>
+					<th height="235">附图</th>
 					<%--上传且显示图片 --%>
-					<th colspan="6"><div align="center"></div>
-						<input type="file" name="file" id="file0" onchange="preview(this.files[0],0)" multiple="multiple">
-							<br> <img src=""  width="99%" id="img0"></th>
-						
+					<th colspan="6"><input type="file" name="file" id="file0"
+						onchange="preview(this.files[0],0)" multiple="multiple"> <br>
+						<img src="" width="99%" id="img0"></th>
+
 				</tr>
 				<tr>
-					<th rowspan="3"><div align="center">
-							<strong>情况反馈</strong>
-						</div></td>
-					<td><div align="center">项目名称</div></td>
-					<td colspan="5" id="mc"><div align="center"></div></td>
+					<th rowspan="3"><strong>情况反馈</strong></th>
+					<th>项目名称</th>
+					<td colspan="5" id="backprojectname">
+						${requestScope.lReport.backprojectname}</td>
 				</tr>
 				<tr>
-					<td><div align="center">用海单位</div></td>
-					<td><div align="center" id="danwei"></div></td>
-					<td width="59"><div align="center">所属市县</div></td>
-					<td><div align="center" id="suoshu"></div></td>
-					<td><div align="center">是否合法</div></td>
-					<td><div align="center" id="sfhf"></div></td>
+					<th>用海单位</th>
+					<td id="marineunit">${requestScope.lReport.marineunit}</td>
+					<th>所属市县</th>
+					<td id="city">${requestScope.lReport.city}</td>
+					<th>是否合法</th>
+					<td id="islegal">${requestScope.lReport.islegal}</td>
 				</tr>
 				<tr>
-					<td height="211" colspan="6" id="fankui"><div align="center"></div>
-					</td>
+					<td height="211" colspan="6" id="feedback" align="left">
+						${requestScope.lReport.feedback}</td>
 				</tr>
 
 			</table>
 			<input type="button" value="打 印" name="butt"
 				onClick="javascript:hide()">
-
-		</form>
-
 	</div>
-
+	<a href="getReport?number=20141231GX020">点击</a>
 </body>
 </html>

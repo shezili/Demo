@@ -9,6 +9,10 @@
 				<param name="root">result</param>
 			</result>
 		</action>
+		
+		<action name="getReport" class="action.GetReportAction" method="getReport">
+			<result name="success">template2.jsp</result>
+		</action>
 
 	</package>
 

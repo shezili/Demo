@@ -1,11 +1,23 @@
 function changeTotext(obj) {
 	var tdValue = obj.innerText;
 	obj.innerText = "";
-	var txt = document.createElement("input");
+	var txt = document.createElement("textarea");
 	txt.type = "text";
 	txt.value = tdValue;
 	txt.id = "_text_000000000_";
-	txt.setAttribute("className", "text");
+	// txt.setAttribute("className", "text");rows
+	var rows = tdValue.length / 20;
+	if (rows < 1) {
+		rows = 1;
+	} else {
+		rows = parseInt(rows) + 1;
+	}
+	var cols = 70;
+	if (tdValue.length < cols) {
+		cols = tdValue.length * 2;
+	}
+	txt.setAttribute("rows", rows);
+	txt.setAttribute("cols", cols);
 	obj.appendChild(txt);
 	txt.select();
 	// obj.style.border = "1px dashed #ff9900";
@@ -67,10 +79,15 @@ function preview(obj, number) {
 }
 function hide() {
 	document.all.item("file0").style.display = "none";
-	document.all.item("file1").style.display = "none";
-	document.all.item("file2").style.display = "none";
-	document.all.item("file3").style.display = "none";
+	if ((document.getElementById("file1"))
+			&& (document.getElementById("file2"))
+			&& (document.getElementById("file3"))) {
+		document.all.item("file1").style.display = "none";
+		document.all.item("file2").style.display = "none";
+		document.all.item("file3").style.display = "none";
+	}
 	document.all.item("butt").style.display = "none";
 	window.print();
-
 }
+
+
