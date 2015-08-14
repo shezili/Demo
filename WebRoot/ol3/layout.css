@@ -1,10 +1,10 @@
-@import url(http://fonts.useso.com/css?family=Quattrocento+Sans:400,400italic,700);
+/* @import url(http://fonts.useso.com/css?family=Quattrocento+Sans:400,400italic,700); */
 
-body {
-  padding-top: 60px;
-}
+/* body { */
+/*   padding-top: 60px; */
+/* } */
 .map {
-  height: 400px;
+  height:100%;
   width: 100%;
   background: url(textured_paper.jpeg) repeat;
 }

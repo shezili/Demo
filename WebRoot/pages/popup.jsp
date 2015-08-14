@@ -79,10 +79,12 @@
 /*       .ol-popup-edit:after { */
 /*         content: "edit"; */
 /*       } */
-      
+/*      body { */
+/*      	background-image:url(../ol3/textured_paper.jpeg); */
+/*      } */
     </style>
 </head>
-<body  onload="init()" background="../ol3/textured_paper.jpeg">
+<body  onload="init()" >
 
 
 	<div id="map" class="map">
@@ -94,6 +96,7 @@
 
 		</div>
 	</div>
+
 
 <!-- 	<div id="nodelist"> -->
 <!-- 		<em>Click on the map to get feature info</em> -->

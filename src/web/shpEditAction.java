@@ -10,16 +10,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import net.sf.json.JSONObject;
-
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
-import org.eclipse.jdt.internal.compiler.ast.ThisReference;
 
 import entity.Feature;
 import entity.ServerConfig;
@@ -102,7 +97,10 @@ public class shpEditAction {
 	private String value;
 	
 	private String updateFlag;
-	
+	/**
+	 * 根据上面四个页面传回的值生成wfs请求发送到geoserver修改属性值
+	 * @return
+	 */
 	public String updateAttribute() {
 		// String info = getDes(xmlUrl);
 		// Map<String, Object> jsonMap = new HashMap<String, Object>();
@@ -119,45 +117,57 @@ public class shpEditAction {
 		}else{
 			updateFlag =  "error";
 		}
-		return updateFlag;
-	}
-	
-	private String xmlUrl;
-	private Feature feature;
-
-	public String getAttributesValue(){
-		//System.out.println("xmlUrl"+xmlUrl);
-		String workSpace = ServerConfig.getInstance().getConfig().getProperty("WORKSPACE");
-		//System.out.println("workSpace:"+workSpace);
-		List<String> attributes = new ArrayList<String>();
-		attributes.add("cat");
-		attributes.add("OBJECTID");
-		attributes.add("AREA");
-		attributes.add("PERIMETER");
-		attributes.add("BG_D_TOWN_");
-		attributes.add("BG_D_TOWN1");
-		attributes.add("ID");
-		attributes.add("i__g__");
-		attributes.add("e__i__");
-		attributes.add("NAME");
-		attributes.add("f__d__e__");
-		attributes.add("SHAPE_Leng");
-		attributes.add("SHAPE_Area");
-		attributes.add("FILE_NAME");
-		
-		String xml = getDes(xmlUrl);
-		String preMark1 = " fid=\"";
-		String tailMark1 = "\"><test:the_geom>";
-		String preMark2 = "<gml:featureMember><";
-		String tailMark2 = " fid=\"";
-		String layerName = xml.substring(xml.indexOf(preMark2)+preMark2.length(),xml.indexOf(tailMark2));
-		String fid =  xml.substring(xml.indexOf(preMark1)+preMark1.length(),xml.indexOf(tailMark1));
-		feature = getAttributes(xml, workSpace, attributes,layerName,fid);
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		jsonMap.put("feature", feature);
-		System.out.println(feature.toString());
 		return "success";
 	}
+	
+	private String coordinate;
+	
+	public String  updateGeom(){
+		System.out.println("=====layername:"+layerName+"=========fid:"+fid+"=============coordinate:"+coordinate+"======");
+		String[] coord = coordinate.split(",");
+		String url = ServerConfig.getInstance().getConfig()
+				.getProperty("EDIT_ATTRIBUTE_URL");
+		String param = getWFSTranscationUpdateGeomPost(layerName, fid, coord[0], coord[1]);
+		System.out.println(param);
+		String resultString = sendPost(url, param);
+		System.out.println("==========结果=============="+resultString);
+		if(resultString.contains("SUCCESS")){
+			updateFlag = "success";
+		}else{
+			updateFlag =  "error";
+		}
+		return "success";
+	}
+	
+	
+	private String xmlUrl;
+	private JSONObject featureJson;
+	
+	/**
+	 * 根据前端页面点击feature传回的url通过getDes()方法获得带有feature信息的字符串解析出其attributes
+	 * @return
+	 */
+	public String getAttributesValue(){
+		
+		String workSpace = ServerConfig.getInstance().getConfig().getProperty("WORKSPACE");
+		//String workSpace = "China";
+		
+		List<String> attributes = new ArrayList<String>();
+		attributes.add("ISLANDID");
+		attributes.add("ISLANDNAME");
+		attributes.add("THUMBNAIL");
+	
+//		System.out.println("==========xmliurl============="+xmlUrl);
+		String xml = getDes(xmlUrl);
+//		System.out.println("==========xml============="+xml);
+
+		Feature feature = getAttributes(xml, workSpace, attributes);
+//		System.out.println("==============================="+feature.toString()+"=========");
+		featureJson = JSONObject.fromObject(feature);
+		return "success";
+	}
+	
+	
 	
 	/**
 	 * get the xml through the url
@@ -195,6 +205,14 @@ public class shpEditAction {
 		return res;
 	}
 	
+	
+	/**
+	 * 发送wfs请求获取feature的属性值
+	 * @param xml
+	 * @param workSpace
+	 * @param attribute
+	 * @return
+	 */
 	public String getAttributeValue(String xml, String workSpace,
 			String attribute) {
 		String value = "";
@@ -203,7 +221,7 @@ public class shpEditAction {
 		String tailString = "<" + "/" + workSpace + ":" + attribute + ">";
 		if (xml.contains(preString)) {
 			value = xml.substring(xml.indexOf(preString) + preString.length(),
-					xml.indexOf(tailString));
+					xml.indexOf(tailString));	
 			return value;
 		} else {
 			value = "error";
@@ -212,60 +230,38 @@ public class shpEditAction {
 
 	}
 	
-	public Feature getAttributes(String xml,String workSpace,List<String> attributes,String layerName,String fid){
+	public Feature getAttributes(String xml,String workSpace,List<String> attributes){
 		Feature feature = new Feature();
 		for(String a:attributes){
 			String value = this.getAttributeValue(xml, workSpace, a);
 			switch (a) {
-			case "cat":
-				feature.setCat(value);
+			case "ISLANDID":
+				feature.setIslandId(value);
 				break;
-			case "OBJECTID":
-				feature.setObjectId(value);
+			case "ISLANDNAME":
+				feature.setIslandName(value);
 				break;
-			case "AREA":
-				feature.setArea(value);
-				break;
-			case "PERIMETER":
-				feature.setPerimeter(value);
-				break;
-			case "BG_D_TOWN_":
-				feature.setBg_d_town_(value);
-				break;
-			case "BG_D_TOWN1":
-				feature.setBg_d_town1(value);
-				break;
-			case "ID":
-				feature.setId(value);
-				break;
-			case "i__g__":
-				feature.setI__g__(value);
-				break;
-			case "e__i__":
-				feature.setE__i__(value);
-				break;
-			case "NAME":
-				feature.setName(value);
-				break;
-			case "f__d__e__":
-				feature.setF__d__e__(value);
-				break;
-			case "SHAPE_Leng":
-				feature.setShape_leng(value);
-				break;
-			case "SHAPE_Area":
-				feature.setShape_area(value);
-				break;
-			case "FILE_NAME":
-				feature.setFile_name(value);
+			case "THUMBNAIL":
+				feature.setThumbnail(value);
 				break;
 			default:
 				break;
 			}
 		}
-		
-		feature.setLayerName(layerName);
-		feature.setFid(fid);
+		String preMark1 = " fid=\"";
+		String tailMark1 = "\"><"+workSpace+":the_geom>";
+		if(xml.contains(preMark1)){
+			feature.setFid(xml.substring(xml.indexOf(preMark1)+preMark1.length(),xml.indexOf(tailMark1)));
+		}else{
+			feature.setFid("error");
+		}
+		String preMark2 = "<gml:featureMember><";
+		String tailMark2 = " fid=\"";
+		if(xml.contains(preMark2)){
+			feature.setLayerName(xml.substring(xml.indexOf(preMark2)+preMark2.length(),xml.indexOf(tailMark2)));
+		}else{
+			feature.setLayerName("error");
+		}	
 		return feature;
 	}
 	
@@ -281,6 +277,21 @@ public class shpEditAction {
 		sb.append(value);
 		sb.append("</wfs:Value></wfs:Property><ogc:Filter>");
 		sb.append("<ogc:FeatureId fid=\"");
+		sb.append(fid);
+		sb.append("\"/></ogc:Filter></wfs:Update></wfs:Transaction>");
+		return sb.toString();
+	}
+	
+	public static String getWFSTranscationUpdateGeomPost(String layerName,String fid,String coordX,String coordY){
+		StringBuilder sb = new StringBuilder();
+		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\" xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:wfs=\"http://www.opengis.net/wfs\"  xmlns:gml=\"http://www.opengis.net/gml\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd\">");
+		sb.append("<wfs:Update typeName=\"");
+		sb.append(layerName);
+		sb.append("\"><wfs:Property><wfs:Name>the_geom</wfs:Name><wfs:Value><gml:MultiPoint srsName=\"http://www.opengis.net/gml/srs/epsg.xml#4326\"><gml:PointMember><gml:Point><gml:coordinates>");
+		sb.append(coordX);
+		sb.append(",");
+		sb.append(coordY);
+		sb.append("</gml:coordinates></gml:Point></gml:PointMember></gml:MultiPoint></wfs:Value></wfs:Property><ogc:Filter><ogc:FeatureId fid=\"");
 		sb.append(fid);
 		sb.append("\"/></ogc:Filter></wfs:Update></wfs:Transaction>");
 		return sb.toString();
@@ -402,12 +413,20 @@ public class shpEditAction {
 		this.xmlUrl = xmlUrl;
 	}
 
-	public Feature getFeature() {
-		return feature;
+	public JSONObject getFeatureJson() {
+		return featureJson;
 	}
 
-	public void setFeature(Feature feature) {
-		this.feature = feature;
+	public void setFeatureJson(JSONObject featureJson) {
+		this.featureJson = featureJson;
+	}
+
+	public String getCoordinate() {
+		return coordinate;
+	}
+
+	public void setCoordinate(String coordinate) {
+		this.coordinate = coordinate;
 	}
 	
 	

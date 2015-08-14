@@ -54,19 +54,6 @@
 			</result>
 		</action>
 
-		<action name="updateShpAttribute" class="web.shpEditAction"
-			method="updateAttribute">
-			<result type="json">
-				<param name="root">updateFlag</param>
-			</result>
-		</action>
-		
-		<action name="getAttributesValue" class="web.shpEditAction"
-			method="getAttributesValue">
-			<result type="json">
-				<param name="root">feature</param>
-			</result>
-		</action>
 		
 	
 
@@ -75,4 +62,5 @@
 	<include file="struts/struts_upload.xml" />
 	<include file="struts/struts_metadata.xml" />
 	<include file="struts/struts_user.xml" />
+	<include file="struts/struts_shp.xml" />
 </struts>    

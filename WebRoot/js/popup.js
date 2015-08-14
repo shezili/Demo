@@ -116,7 +116,7 @@ function setUrl1(url){
           //[text/plain, application/vnd.ogc.gml, application/vnd.ogc.gml/3.1.1, text/html, application/json]
           {'INFO_FORMAT': 'application/vnd.ogc.gml'});
         setUrl1(url_1);
-        
+//        alert(evt.coordinate);
         //打算将getAttributesValue元素绑定一个固定的function，在这个function里
         //提交ajax请求获得属性，返回一个属性的对象再填写到eastlistlayer。jsp中，这里这行代码用来改变ajax提交所需的xmlUrl参数
         //document.getElementById("getAttributesValue").href='getAttributesValue?xmlUrl='+encodeURIComponent(url_1);//encodeURIComponent，这样组合的url才不会被#等特殊字符截断。
@@ -140,8 +140,7 @@ function setUrl1(url){
 		   	 dataType : "json"
 	   	 });
 		
-		var coordinate = evt.coordinate;
-		overlay.setPosition(coordinate);
+		overlay.setPosition(evt.coordinate);
 		getAttributesValue();
 		container.style.display = 'block';
 		$('#pictureWindow').window('close');
@@ -161,7 +160,6 @@ function setUrl1(url){
 	   	 success : showAttributes,
 	   	 dataType : "json"
    	 });
-	 
  }
  /**
   * 在右边栏显示属性
