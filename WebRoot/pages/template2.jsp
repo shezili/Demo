@@ -57,17 +57,16 @@ tr {
 </style>
 </head>
 <body>
-	<a onclick="getClazz()">xxx</a>
+	<a onclick="getClazz()">提交</a>
 	<p>&nbsp;</p>
 	<h2 align="center">
-		<img src="../island_data/logo.jpg" alt="logo" width="79" height="78"
+		<img src="../img/logo.jpg" alt="logo" width="79" height="78"
 			hspace="12" align="absmiddle" />南海区<strong>“空-地”行政执法情况通报和反馈表</strong>
 	</h2>
 	<div align="center">
 		<table>
 			<tr>
 				<th>编号：
-				</td>
 				<td id="reportnumber">${requestScope.lReport.reportnumber}</td>
 			</tr>
 		</table>
@@ -97,7 +96,7 @@ tr {
 				<th>项目位置</th>
 				<td colspan="2" id="projectlocation">
 					${requestScope.lReport.projectlocation}</td>
-				<th width="94">经纬度坐标</th>
+				<th >经纬度坐标</th>
 				<td colspan="3" id="latlon">${requestScope.lReport.latlon}</td>
 			</tr>
 			<tr>

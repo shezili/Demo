@@ -66,11 +66,9 @@
 							</tr>
 							<tr>
 								<th data-options="field:'itemid',width:80">
-									<a class="easyui-linkbutton c9" style="width:70px" onclick = "changesrc('China.jsp');">弹窗显示</a>
+									<a class="easyui-linkbutton c9" style="width:70px" onclick = "changesrc('China.jsp');">矢量编辑</a>
 								</th>
-								<th data-options="field:'productid',width:80">
-									<a class="easyui-linkbutton c8" style="width:70px" onclick="testindex();">矢量编辑</a>
-								</th>
+						
 							</tr>
 							<tr>
 								<th data-options="field:'itemid',width:80"></th>
@@ -85,7 +83,9 @@
 					<a class="easyui-linkbutton c1" style="width:70px" onclick="changesrc('osfile.jsp');">添加数据</a>
 					<a class="easyui-linkbutton c2" style="width:70px" onclick="changesrc('metadata.jsp');">数据查询</a>
 				</div>
-				<div title="报告报表" style="padding:10px">content3</div>
+				<div title="报告报表" style="padding:10px">
+					<a class="easyui-linkbutton c1" style="width:70px" href="template2.jsp" target="_blank">报表</a>
+				</div>
 			</div>
 		</div>
 		<div data-options="region:'center',title:'数据显示',iconCls:'icon-search'">

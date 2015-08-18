@@ -13,7 +13,7 @@ var projection = new ol.proj.Projection({
 });
 
 var port = '7777';
-var geoserverUrl = 'http://'+window.location.hostname+':'+port+'/geoserver/gwc/service/wms';
+var geoserverUrl = 'http://'+'192.168.1.100'+':'+port+'/geoserver/gwc/service/wms';
 
 function init1(name) {
 	var gr = new ol.tilegrid.TileGrid({

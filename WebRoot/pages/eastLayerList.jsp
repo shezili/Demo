@@ -98,8 +98,8 @@
 		style="position:absolute;display:none;z-index:1; left: 0px; top:0px">
 		<table>
 			<tr>
-				<td>图层:</td>
-				<td><input class="easyui-validatebox textbox"
+				<td >图层:</td>
+				<td ><input class="easyui-validatebox textbox"
 					name="feature.layerName" id="layerName" readonly="true"></td>
 			</tr>
 			<tr>

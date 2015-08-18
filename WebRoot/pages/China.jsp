@@ -30,6 +30,8 @@
         padding: 15px;
         border-radius: 10px;
         border: 1px solid #cccccc;
+         height: 130px;
+        width:130px;
         bottom: 12px;
         left: -50px;
       }
@@ -80,11 +82,10 @@
 			<a href="#" id="popup-closer" class="ol-popup-closer"></a>
 			<a href="#" onclick="openPictureWindow()" id="popup-more" class="ol-popup-more"></a>
 <!-- 			<a id="getAttributesValue"  onclick = "getAttributesValue()"class="ol-popup-edit"></a> -->
-				<img id="picture" src="" width='128' height='128' />
+				<img id="picture" src="" width='128px' height='128px' />
 
 		</div>
 	</div>
-	<p id="nodelist"></p>
 	<p id="location"></p>
 
 	<form class="form-inline">

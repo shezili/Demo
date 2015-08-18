@@ -7,7 +7,8 @@ var bd;
 var bbox;
 var format = 'image/png';
 var port = '7777';
-var geoserverUrl = 'http://'+window.location.hostname+':'+port+'/geoserver/gwc/service/wms';  //当程序服务器端和geoserver在一台电脑上才行
+//var geoserverUrl = 'http://'+window.location.hostname+':'+port+'/geoserver/gwc/service/wms';  //当程序服务器端和geoserver在一台电脑上才行
+var geoserverUrl = 'http://'+'192.168.1.100'+':'+port+'/geoserver/gwc/service/wms'; 
 /**
  * build the map
  * 
@@ -22,13 +23,14 @@ function init(name) {
 		coordinateFormat : ol.coordinate.createStringXY(5),
 		undefinedHTML : '&nbsp;'
 	});
-	var bounds = [ 220485, 3245385, 467115, 3462015 ];
+	var bounds = [ 222585.0,3245385.0,469215.0,3461715.0];
 	var gr = new ol.tilegrid.TileGrid({
 		origin : [ 166021.4430960765, 0 ],
 		resolutions : [ 2609.2074758118965, 1304.6037379059483,
 				652.3018689529741, 326.15093447648707, 163.07546723824353,
 				81.53773361912177, 40.76886680956088, 20.38443340478044,
-				10.19221670239022, 5.09610835119511, 2.548054175597555 ]
+				10.19221670239022, 5.09610835119511, 2.548054175597555,
+				1.2740270877987776 ]
 	});
 	layer = new ol.layer.Tile({
 		// extent:[220485,3245385,467115,3462015],

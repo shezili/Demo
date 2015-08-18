@@ -33,9 +33,9 @@
 </head>
 <body onload="init1('test:work1');init2('test:work2')" background="../ol3/textured_paper.jpeg">
 
-	<div style="width:420px;float:left;">
+	<div style="width:50%;height:490px;float:left;">
 
-		<div id="map1" class="map"></div>
+		<div id="map1" style="width:100%;height:100%"></div>
 		<center>
 			<input class="easyui-slider" style="width:300px"
 				data-options="
@@ -57,8 +57,8 @@
 		</center>
 	</div>
 
-	<div style="width:420px;float:left;">
-		<div id="map2" class="map"></div>
+	<div style="width:50%;height:490px;float:left;">
+		<div id="map2" style="width:100%;height:100%"></div>
 		<center>
 			<input class="easyui-slider" style="width:300px"
 				data-options="

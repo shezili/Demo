@@ -26,7 +26,9 @@ public class GetIslandInfoAction extends ActionSupport{
 	 * @return
 	 */
 	public String getName(){
+//		System.out.println(islandNo+"=====");
 		List<Island> islands = this.getIslands();
+		System.out.println(islands.size());
 		for(int i=0;i<islands.size();i++){
 			if(islands.get(i).getNumber().equals(islandNo)){
 				result = islands.get(i).getName();
@@ -37,6 +39,7 @@ public class GetIslandInfoAction extends ActionSupport{
 	}
 	
 	public String getNumber(){
+//		System.out.println(islandName);
 		List<Island> islands = this.getIslands();
 		for(int i=0;i<islands.size();i++){
 			if(islands.get(i).getName().equals(islandName)){
@@ -58,8 +61,10 @@ public class GetIslandInfoAction extends ActionSupport{
 		path = path.replace("/classes", "").replace("%20", " ")
 				.replace("/WEB-INF", "");
 		path = path+"island_data";
+//		System.out.println(path);
 		File root = new File(path);
 		String[] list = root.list();
+//		System.out.println("====list==="+list.length);
 		for(int i=0;i<list.length;i++){
 			//System.out.println(list[i]);
 			Island tempIsland = new Island();
@@ -71,6 +76,9 @@ public class GetIslandInfoAction extends ActionSupport{
 //			System.out.println("length"+temp1.length);
 			islands.add(tempIsland);
 		}
+//		for(Island i : islands){
+//			System.out.println(islandName.toString());
+//		}
 		return islands;
 	}
 	

@@ -83,7 +83,6 @@ function init() {
 	
 	map.on('singleclick', function(evt) {
 		if(editing === false){
-			document.getElementById('nodelist').innerHTML = "Loading... please wait...";
 	        var view = map.getView();
 	        var viewResolution = view.getResolution();
 	        var source = layer3.getSource();
@@ -93,13 +92,6 @@ function init() {
 	                {'INFO_FORMAT': 'application/vnd.ogc.gml'}
 	        );
 	        setUrl1(url_1);
-	      	var url_2 = source.getGetFeatureInfoUrl(
-	                evt.coordinate, viewResolution, view.getProjection(),
-	                {'INFO_FORMAT': 'text/html'}
-	        );
-	        if (url_2) {
-	                document.getElementById('nodelist').innerHTML = '<iframe seamless src="' + url_2 + '"></iframe>';
-	        }
 			$.ajax({
 		    	 method:'POST',
 			   	 url : "thumbnail",

@@ -5,7 +5,7 @@ var layerName1;
 var layderName2;
 var format = 'image/png';
 var port = '7777';
-var geoserverUrl = 'http://'+window.location.hostname+':'+port+'/geoserver/gwc/service/wms';
+var geoserverUrl = 'http://'+'192.168.1.100'+':'+port+'/geoserver/gwc/service/wms';
 
 function init(name1, name2) {
 	var bounds = [ 220485, 3245385, 467115, 3462015 ];
