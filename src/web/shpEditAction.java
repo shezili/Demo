@@ -130,7 +130,9 @@ public class shpEditAction {
 		// System.out.println("updateAttribute:url是：  "+url);
 		String param = getWFSTranscationUpdatePost(layerName, fid, attribute,
 				value);
+		System.out.println("================"+param);
 		String resultString = sendPost(url, param);
+		System.out.println("==========结果==============" + resultString);
 		if (resultString.contains("SUCCESS")) {
 			updateFlag = "success";
 		} else {
@@ -144,11 +146,42 @@ public class shpEditAction {
 	public String updateGeom() {
 		System.out.println("=====layername:" + layerName + "=========fid:"
 				+ fid + "=============coordinate:" + coordinate + "======");
-		String[] coord = coordinate.split(",");
 		String url = ServerConfig.getInstance().getConfig()
 				.getProperty("EDIT_ATTRIBUTE_URL");
 		String param = getWFSTranscationUpdateGeomPost(layerName, fid,
-				coord[0], coord[1]);
+				coordinate);
+		System.out.println(param);
+		String resultString = sendPost(url, param);
+		System.out.println("==========结果==============" + resultString);
+		if (resultString.contains("SUCCESS")) {
+			updateFlag = "success";
+		} else {
+			updateFlag = "error";
+		}
+		return "success";
+	}
+	
+	public String addPoint(){
+		System.out.println("=====layername:" + layerName + "=============coordinate:" + coordinate + "======");
+		String url = ServerConfig.getInstance().getConfig()
+				.getProperty("EDIT_ATTRIBUTE_URL");
+		String param = getWFSTranscationInsertPost(layerName,  coordinate);
+		System.out.println(param);
+		String resultString = sendPost(url, param);
+		System.out.println("==========结果==============" + resultString);
+		if (resultString.contains("SUCCESS")) {
+			updateFlag = "success";
+		} else {
+			updateFlag = "error";
+		}
+		return "success";
+	}
+	
+	public String delPoint(){
+		System.out.println("=====layername:" + layerName + "=============attribute:" + attribute + "===============value:"+value+"====");
+		String url = ServerConfig.getInstance().getConfig()
+				.getProperty("EDIT_ATTRIBUTE_URL");
+		String param = getWFSTranscationDeletePost(layerName, attribute, value);
 		System.out.println(param);
 		String resultString = sendPost(url, param);
 		System.out.println("==========结果==============" + resultString);
@@ -184,8 +217,9 @@ public class shpEditAction {
 		// System.out.println("==========xml============="+xml);
 
 		Feature feature = getAttributes(xml, workSpace, attributes);
-		// System.out.println("==============================="+feature.toString()+"=========");
+		System.out.println("===============================feature:"+feature.toString()+"=========");
 		featureJson = JSONObject.fromObject(feature);
+		System.out.println("===============================featureJson:"+feature.toString()+"=========");
 		return "success";
 	}
 
@@ -292,34 +326,102 @@ public class shpEditAction {
 
 	public static String getWFSTranscationUpdatePost(String layerName,
 			String fid, String attribute, String value) {
+		String[] wlStrings = layerName.split(":");
+		String workspace = wlStrings[0];
 		StringBuilder sb = new StringBuilder();
-		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\" xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:wfs=\"http://www.opengis.net/wfs\">");
-		sb.append("<wfs:Update typeName=\"");
-		sb.append(layerName);
-		sb.append("\"><wfs:Property><wfs:Name>");
-		sb.append(attribute);
-		sb.append("</wfs:Name><wfs:Value>");
-		sb.append(value);
-		sb.append("</wfs:Value></wfs:Property><ogc:Filter>");
-		sb.append("<ogc:FeatureId fid=\"");
-		sb.append(fid);
-		sb.append("\"/></ogc:Filter></wfs:Update></wfs:Transaction>");
+		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\" ");
+		sb.append("	xmlns:"+workspace+"=\"http://www.opengeospatial.net/"+workspace+"\"");
+		sb.append("	xmlns:ogc=\"http://www.opengis.net/ogc\"");
+		sb.append("	 xmlns:wfs=\"http://www.opengis.net/wfs\">");
+		sb.append("	<wfs:Update typeName=\""+layerName+"\">");
+		sb.append("		<wfs:Property>");
+		sb.append("			<wfs:Name>"+attribute+"</wfs:Name>");
+		sb.append("			<wfs:Value>"+value+"</wfs:Value>");
+		sb.append("		</wfs:Property>");
+		sb.append("		<ogc:Filter>");
+		sb.append("			<ogc:FeatureId fid=\""+fid+"\"/>");
+		sb.append("		</ogc:Filter>");
+		sb.append("	</wfs:Update>");
+		sb.append("</wfs:Transaction>");
 		return sb.toString();
 	}
 
 	public static String getWFSTranscationUpdateGeomPost(String layerName,
-			String fid, String coordX, String coordY) {
+			String fid, String coordinates) {
+		String[] wlStrings = layerName.split(":");
+		String workspace = wlStrings[0];
 		StringBuilder sb = new StringBuilder();
-		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\" xmlns:ogc=\"http://www.opengis.net/ogc\" xmlns:wfs=\"http://www.opengis.net/wfs\"  xmlns:gml=\"http://www.opengis.net/gml\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd\">");
-		sb.append("<wfs:Update typeName=\"");
-		sb.append(layerName);
-		sb.append("\"><wfs:Property><wfs:Name>the_geom</wfs:Name><wfs:Value><gml:MultiPoint srsName=\"http://www.opengis.net/gml/srs/epsg.xml#4326\"><gml:PointMember><gml:Point><gml:coordinates>");
-		sb.append(coordX);
-		sb.append(",");
-		sb.append(coordY);
-		sb.append("</gml:coordinates></gml:Point></gml:PointMember></gml:MultiPoint></wfs:Value></wfs:Property><ogc:Filter><ogc:FeatureId fid=\"");
-		sb.append(fid);
-		sb.append("\"/></ogc:Filter></wfs:Update></wfs:Transaction>");
+		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\"");
+		sb.append("	xmlns:"+workspace+"=\"http://www.opengeospatial.net/"+workspace+"\"");
+		sb.append("	xmlns:ogc=\"http://www.opengis.net/ogc\"");
+		sb.append("	xmlns:wfs=\"http://www.opengis.net/wfs\"");
+		sb.append("	xmlns:gml=\"http://www.opengis.net/gml\"");
+		sb.append("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+		sb.append("	xsi:schemaLocation=\"http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd\">");	
+		sb.append("	<wfs:Update typeName=\""+layerName+"\">");
+		sb.append("		<wfs:Property>");
+		sb.append("			<wfs:Name>the_geom</wfs:Name>");
+		sb.append("			<wfs:Value>");
+		sb.append("				<gml:Point srsName=\"http://www.opengis.net/gml/srs/epsg.xml#4326\">");
+		sb.append("					<gml:coordinates>"+coordinates+"</gml:coordinates>");
+		sb.append("				</gml:Point>");
+		sb.append("			</wfs:Value>");
+		sb.append("		</wfs:Property>");
+		sb.append("		<ogc:Filter>");
+		sb.append("			<ogc:FeatureId fid=\""+fid+"\"/>");
+		sb.append("		</ogc:Filter>");
+		sb.append("	</wfs:Update>");
+		sb.append("</wfs:Transaction>");
+		return sb.toString();
+	}
+	
+	public static String getWFSTranscationInsertPost(String layerName,String coordinates){
+		String[] wlStrings = layerName.split(":");
+		String workspace = wlStrings[0];
+		String layer = wlStrings[1];
+		StringBuilder sb = new StringBuilder();
+		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\"");
+		sb.append("	outputFormat=\"GML2\" ");
+		sb.append("	xmlns:wfs=\"http://www.opengis.net/wfs\"");
+		sb.append("	xmlns:"+workspace+"=\"http://www.opengeospatial.net/"+workspace+"\"");
+		sb.append("	xmlns:gml=\"http://www.opengis.net/gml\"");
+		sb.append("	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+		sb.append("	xsi:schemaLocation=\"http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd ");
+		sb.append("	http://www.opengeospatial.net/"+workspace+" http://localhost:8080/geoserver/wfs/DescribeFeatureType?typename="+layerName+"\">");
+		sb.append("	<wfs:Insert handle=\""+layer+" \">");
+		sb.append("		<"+layerName+">");
+		sb.append("			<"+workspace+":the_geom>");
+		sb.append("				<gml:Point srsName=\"http://www.opengis.net/gml/srs/epsg.xml#4326\">");
+		sb.append("					<gml:coordinates decimal=\".\" cs=\",\" ts=\" \">");
+		sb.append(coordinates);
+		sb.append("					</gml:coordinates>");
+		sb.append("				</gml:Point>");
+		sb.append("			</"+workspace+":the_geom>");
+		sb.append("		</"+layerName+">");
+		sb.append("	</wfs:Insert>");
+		sb.append("</wfs:Transaction>");
+		return sb.toString();
+	}
+	
+	public static String getWFSTranscationDeletePost(String layerName,
+			String key, String value){
+		String[] wlStrings = layerName.split(":");
+		String workspace = wlStrings[0];
+		StringBuilder sb = new StringBuilder();
+		sb.append("<wfs:Transaction service=\"WFS\" version=\"1.0.0\"");
+		sb.append("	 xmlns:cdf=\"http://www.opengis.net/"+workspace+"/data\"");
+		sb.append("	 xmlns:ogc=\"http://www.opengis.net/ogc\"");
+		sb.append("	 xmlns:wfs=\"http://www.opengis.net/wfs\"");
+		sb.append("	xmlns:"+workspace+"=\"http://www.opengeospatial.net/"+workspace+"\">");
+		sb.append("	<wfs:Delete typeName=\""+layerName+"\">");
+		sb.append("		<ogc:Filter>");
+		sb.append("			<ogc:PropertyIsEqualTo>");
+		sb.append("				<ogc:PropertyName>"+workspace+":"+key+"</ogc:PropertyName>");
+		sb.append("				<ogc:Literal>"+value+"</ogc:Literal>");
+		sb.append("			</ogc:PropertyIsEqualTo>");
+		sb.append("		</ogc:Filter>");
+		sb.append("	</wfs:Delete>");
+		sb.append("</wfs:Transaction>");
 		return sb.toString();
 	}
 

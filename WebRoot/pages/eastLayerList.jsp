@@ -52,7 +52,7 @@
 	function updateAttribute(name, value) {
 		var layerName = document.getElementById("layerName").value;
 		var fid = document.getElementById("fid").value;
-		//alert(layerName+fid+name+value);
+// 		alert(layerName+fid+name+value);
 		$.ajax({
 			method : 'POST',
 			url : "updateShpAttribute",

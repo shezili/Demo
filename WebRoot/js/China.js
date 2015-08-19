@@ -4,9 +4,14 @@
  * 而获取属性功能则需要解析出所有属性以显示在右(eastLayers.jsp)的属性列表,
  * 后台的action（thumbnail和getAttributes）可以进行合并，不合并可以保持两个功能模块的独立性(?)
  */
-var isEdit = false;
-function init() {
+var map;
+var EditStatus = "no";
+var editing = false;
+$(document).ready(function() {
+	init();
+});
 
+function init() {
 	var container = document.getElementById('popup');
 	var closer = document.getElementById('popup-closer');
 	closer.onclick = function() {
@@ -67,7 +72,7 @@ function init() {
 	        })
 	});
 
-	var map = new ol.Map({
+	map = new ol.Map({
 		controls : ol.control.defaults({
 			attribution : false
 		}).extend([ mousePositionControl ]),
@@ -92,148 +97,30 @@ function init() {
 	                {'INFO_FORMAT': 'application/vnd.ogc.gml'}
 	        );
 	        setUrl1(url_1);
-			$.ajax({
-		    	 method:'POST',
-			   	 url : "thumbnail",
-			   	 data : {
-					xmlUrl:url_1
-			   	 },
-			   	 success : thumbnailCallBack,
-			   	 dataType : "json"
-		   	 });
 			overlay.setPosition(evt.coordinate);
+			getThumbnail();
 			getAttributesValue();
 			$('#pictureWindow').window('close');
 		}else{
 			alert("马上要发送的点的坐标"+evt.coordinate);
 			var coord = evt.coordinate.toString();
-			$.ajax({
-				method : 'POST',
-				url : "updateShpGeom",
-				data : {
-					layerName : selectedFeature.layerName,
-					fid : selectedFeature.fid,
-					coordinate : coord,
-				},
-				success : showEditResult,
-				dataType : "json"
-			});
+			switch(EditStatus)
+			{
+			case "DELETE":
+				deletePoint(coord);
+			    break;
+			case "ADD":
+				addPoint(coord);
+			    break;
+			case "UPDATE":
+				updatePoint(coord);
+				break;
+			default:
+			    alert("没有这种编辑状态");
+			}
 		}   
     });
-	
-
-	var featureOverlay = new ol.FeatureOverlay({
-		style : new ol.style.Style({
-			fill : new ol.style.Fill({
-				color : 'rgba(255, 255, 255, 0.2)'
-			}),
-			stroke : new ol.style.Stroke({
-				color : '#ffcc33',
-				width : 2
-			}),
-			image : new ol.style.Circle({
-				radius : 7,
-				fill : new ol.style.Fill({
-					color : '#ffcc33'
-				})
-			})
-		})
-	});
-	featureOverlay.setMap(map);
-
-//	var modify = new ol.interaction.Modify({
-//		features : featureOverlay.getFeatures(),
-//		// the SHIFT key must be pressed to delete vertices, so
-//		// that new vertices can be drawn at the same position
-//		// of existing vertices
-//		deleteCondition : function(event) {
-//			return ol.events.condition.shiftKeyOnly(event)
-//					&& ol.events.condition.singleClick(event);
-//		},
-//	});
-//	modify.on('modifyend', send_end_point);
-	
-//no bird use
-//	modify.once('modifystart', send_start_point);
-	
-//
-//	map.addInteraction(modify);
-
-	var draw; // global so we can remove it later
-	var modify ;
-	function addInteraction() {
-		var value = typeSelect.value;
-		if (value !== 'None') {
-			draw = new ol.interaction.Draw({
-				features : featureOverlay.getFeatures(),
-				type : /** @type {ol.geom.GeometryType} */
-				(value)
-			});
-			/* map.on('singleclick', function(evt) {alert("start point"+evt.coordinate);}); */
-			//draw.on('drawend', confirm1);
-			//draw.on('drawstart',confirm1);
-			map.addInteraction(draw);
-			
-			modify = new ol.interaction.Modify({
-				features : featureOverlay.getFeatures(),
-				// the SHIFT key must be pressed to delete vertices, so
-				// that new vertices can be drawn at the same position
-				// of existing vertices
-				deleteCondition : function(event) {
-					return ol.events.condition.shiftKeyOnly(event)
-							&& ol.events.condition.singleClick(event);
-				},
-			});
-			map.addInteraction(modify);
-		}
-	}
-
-//	function send_start_point() {
-//		alert("start");
-//	}
-//	function send_end_point() {
-//		alert("end");
-//	}
-
-	var typeSelect = document.getElementById('type');
-
-	typeSelect.onchange = function(e) {
-		map.removeInteraction(draw);
-		map.removeInteraction(modify);
-		addInteraction();
-		if(isEdit === false){
-				alert("进入编辑模式");
-				isEdit = true;
-		}else{
-				alert("退出编辑模式");
-				isEdit = false;
-		}
-	};
-
-	addInteraction();
 }
-
-function topLeft(msg) {
-	$.messager.show({
-		title : 'message',
-		msg : msg,
-		showType : 'show',
-		style : {
-			right : '',
-			left : 0,
-			top : document.body.scrollTop + document.documentElement.scrollTop,
-			bottom : ''
-		}
-	});
-}
-/**
- * 设置最新的图片url
- */
-var refreashPictureUrl;
-function setUrl1(url){
-	refreashPictureUrl = url;
-}
-
 /**
  * 获取属性
  */
@@ -255,32 +142,143 @@ function getAttributesValue(){
  */
 var selectedFeature;
 function showAttributes(json){
-	// alert(json);
-	 if(isEdit === true){
-		 selectedFeature =json;
-		 if (selectedFeature.islandName === 'error') {
-				alert("并未选中任何岛屿");
+	selectedFeature = json;
+	switch(EditStatus)
+	{
+		case "DELETE":
+			 if (selectedFeature.fid === 'error') {
+				 alertMessager("提示","并未选中任何岛屿","info");
+				}else{
+					if(selectedFeature.islandId == "error"){
+						alertMessager("警告","请先填写该岛屿ID","warning");
+						EditStatus = "no";
+					}else{
+						confirmDeleteMessager(selectedFeature.islandName);
+					}
+			 }
+		    break;
+		case "ADD":
+			if (selectedFeature.fid !== 'error') {
+				//alert("并未选中任何岛屿");
+			 alertMessager("提示","此处已有其它岛屿","info");
 			}else{
-				confirm1(selectedFeature.islandName);
+				editing = true;
+				alertMessager("提示","再次点击确认添加岛屿！","info");
 		 }
-	 }
+		    break;
+		case "UPDATE":
+			 if (selectedFeature.fid === 'error') {
+					//alert("并未选中任何岛屿");
+				 alertMessager("提示","并未选中任何岛屿","info");
+				}else{
+				 confirmIslandMessager(selectedFeature.islandName);
+			 }
+			break;
+		case "no":
+			break;
+		default:
+		    alert("没有这种编辑状态");
+	}
 	 parent.window.showAttributes(json);
 }
 
-var editing = false;
-function confirm1(name) {
-	$.messager.confirm('My Title', '确定修改岛屿：'+name+'?', function(r) {
+function menuHandler(item){
+	if(item.name !== "exit"){
+		EditStatus = item.name;
+	}else{
+		EditStatus = "no";
+		editing = false;
+	}
+}
+$(function(){
+	$(document).bind('contextmenu',function(e){
+		e.preventDefault();
+		$('#mm').menu('show', {
+			left: e.pageX,
+			top: e.pageY
+		});
+	});
+});
+function updatePoint(coord){
+	$.ajax({
+		method : 'POST',
+		url : "updateShpGeom",
+		data : {
+			layerName : selectedFeature.layerName,
+			fid : selectedFeature.fid,
+			coordinate : coord,
+		},
+		success : showEditResult,
+		dataType : "json"
+	});
+}
+
+function confirmDeleteMessager(name){
+	$.messager.confirm('确认删除', '确认删除海岛：'+name+'?', function(r){
+		if (r){
+			deletePoint();
+		}
+	});
+}
+function deletePoint(){
+	$.ajax({
+		method : 'POST',
+		url : "delPoint",
+		data : {
+			layerName : selectedFeature.layerName,
+			attribute : "ISLANDID",
+			value : selectedFeature.islandId,
+		},
+		success : showEditResult,
+		dataType : "json"
+	});
+}
+function addPoint(coord){
+	$.ajax({
+		method : 'POST',
+		url : "addPoint",
+		data : {
+			layerName : "China:HaidaoDian",
+			coordinate : coord,
+		},
+		success : showEditResult,
+		dataType : "json"
+	});
+}
+
+/**
+ * 设置最新的图片url
+ */
+var refreashPictureUrl;
+function setUrl1(url){
+	refreashPictureUrl = url;
+}
+
+function confirmIslandMessager(name) {
+	$.messager.confirm('确认岛屿', '确定修改岛屿：'+name+'?', function(r) {
 		if (r) {
 			editing = true;
-			alert( "请拖动该点到达指定位置后单击确认" );
+			//alert( "请拖动该点到达指定位置后单击确认" );
+			alertMessager("提示","单击确认岛屿最终位置","info");
 		}
 	});
 }
 
 var pictures;
+function getThumbnail(){
+	$.ajax({
+   	 method:'POST',
+	   	 url : "thumbnail",
+	   	 data : {
+			xmlUrl:refreashPictureUrl
+	   	 },
+	   	 success : thumbnailCallBack,
+	   	 dataType : "json"
+  	 });
+}
 function thumbnailCallBack(json) {
 	// alert(JSON.stringify(json));	
-	if((isEdit === true)||(json.islandName === 'error')){
+	if((EditStatus !== "no")||(json.islandName === 'error')){
 		$('#popup,#picture,#popup-closer,#popup-more').css('display','none');
 		//closer.blur();
 	}else{
@@ -296,9 +294,12 @@ function thumbnailCallBack(json) {
 	}
 }
 function showEditResult(json){
-	alert("移动成功");
+	
 	location.reload() ;
+	alertMessager("提示","编辑成功","info");
 }
+
+
 
 function openPictureWindow() {
 	refreash();
@@ -375,16 +376,20 @@ function setMainPicture(path) {
 
 //设置主缩略图成功后再次向后台请求缩略图，缩略图替换为最新设定的缩略图，达到刷新的效果
 function setMainPictureCallBack(json) {
-	if (json == "ok") {
-		$.ajax({
-			method : 'POST',
-			url : "thumbnail",
-			data : {
-				xmlUrl : refreashPictureUrl
-			},
-			success : thumbnailCallBack,
-			dataType : "json"
-		});
-
+	if (json === "ok") {
+		getThumbnail();
 	}
 }
+
+function slideMessager(title,msg){
+    $.messager.show({
+        title:title,
+        msg:msg,
+        timeout:2000,
+        showType:'slide'
+    });
+}
+function alertMessager(title,msg,type){
+    $.messager.alert(title,msg,type);
+}
+

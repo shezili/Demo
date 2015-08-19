@@ -86,7 +86,7 @@ public class Thumbnail  {
 		String pAtt = ServerConfig.getInstance().getConfig().getProperty("FILEATTRIBUTE");
 		String pk = getPictureKeyByString(xmlUrl, workSpace, pAtt);
 
-		System.out.println(pk);
+//		System.out.println(pk);
 		if (pk != "error") {
 		
 			String path = this.getClass().getClassLoader().getResource("")
@@ -123,6 +123,7 @@ public class Thumbnail  {
 //				System.out.println(tempStrings2[0]+"!!!!!"+tempStrings2[1]+"!!!!!"+tempStrings2[2]);
 				if(pictureTemp.getType().equals("mainthumbnail")){
 					mainPictureUrl = pictureTemp.getUrl();
+					System.out.println("============mainPictureUrl========="+mainPictureUrl);
 				}
 				pictures.add(pictureTemp);
 			}
@@ -155,7 +156,7 @@ public class Thumbnail  {
 			String pAtt) {
 		String key = "";
 		String xml = getDes(url);
-		System.out.println(xml);
+//		System.out.println(xml);
 		String preString = "<" + workSpace + ":" + pAtt + ">";
 		String tailString = "<" + "/" + workSpace + ":" + pAtt + ">";
 		if (xml.contains(preString)) {
@@ -220,6 +221,8 @@ public class Thumbnail  {
 	private String setResult;
 	
 	public String setMainPicture(){
+		System.out.println("picturePath========================="+picturePath);
+		
 		File sourceFile = new File(picturePath);
 		String filePath = sourceFile.getAbsolutePath();
 		

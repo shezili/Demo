@@ -12,8 +12,9 @@
 <script type="text/javascript" src="../easyui/jquery.min.js "></script>
 <script type="text/javascript" src="../easyui/jquery.easyui.min.js "></script>
 <link rel="stylesheet" href="../ol3/ol.css">
-<link rel="stylesheet" href="../ol3/bootstrap.min.css" type="text/css">
-<link rel="stylesheet" href="../ol3/layout.css" type="text/css">
+<!-- 以下两条与easyUI图标显示冲突 -->
+<!-- <link rel="stylesheet" href="../ol3/bootstrap.min.css" type="text/css"> -->
+<!-- <link rel="stylesheet" href="../ol3/layout.css" type="text/css"> -->
 <link rel="stylesheet" href="../ol3/bootstrap-responsive.css" type="text/css">
 <script type="text/javascript" src="../ol3/ol-debug.js"></script>
 <script type="text/javascript" src="../ol3/base.js"></script>
@@ -76,7 +77,8 @@
       }    
  </style>
 </head>
-<body onload="init()" background="../ol3/textured_paper.jpeg">
+<body  background="../ol3/textured_paper.jpeg">
+		<div id="fakemap" ></div>
 		<div id="map" class="map">
 		<div id="popup" class="ol-popup">
 			<a href="#" id="popup-closer" class="ol-popup-closer"></a>
@@ -88,15 +90,13 @@
 	</div>
 	<p id="location"></p>
 
-	<form class="form-inline">
-		<label>Geometry type &nbsp;</label> <select id="type">
-			<option value="None">None</option>
-			<option value="Point">Point</option>
-			<!-- <option value="LineString">LineString</option>
-                <option value="Polygon">Polygon</option> -->
-			
-		</select>
-	</form>
+	<div id="mm" class="easyui-menu" data-options="onClick:menuHandler" style="width:120px;">
+		<div data-options="name:'ADD',iconCls:'icon-add'">添加</div>
+		<div data-options="name:'DELETE',iconCls:'icon-cancel'">删除</div>
+		<div data-options="name:'UPDATE',iconCls:'icon-edit'">校正</div>
+		<div class="menu-sep"></div>
+		<div data-options="name:'exit'">退出</div>
+	</div>
 	
 	<div id="pictureWindow" name="pictureWindow" class="easyui-window"
 		title="图片一览" closed="true"
