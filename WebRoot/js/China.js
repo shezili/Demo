@@ -4,9 +4,10 @@
  * 而获取属性功能则需要解析出所有属性以显示在右(eastLayers.jsp)的属性列表,
  * 后台的action（thumbnail和getAttributes）可以进行合并，不合并可以保持两个功能模块的独立性(?)
  */
-var map;
+
 var EditStatus = "no";
 var editing = false;
+var coord ;
 $(document).ready(function() {
 	init();
 });
@@ -72,7 +73,7 @@ function init() {
 	        })
 	});
 
-	map = new ol.Map({
+	var map = new ol.Map({
 		controls : ol.control.defaults({
 			attribution : false
 		}).extend([ mousePositionControl ]),
@@ -87,6 +88,7 @@ function init() {
 	});
 	
 	map.on('singleclick', function(evt) {
+		coord = evt.coordinate.toString();
 		if(editing === false){
 	        var view = map.getView();
 	        var viewResolution = view.getResolution();
@@ -102,22 +104,24 @@ function init() {
 			getAttributesValue();
 			$('#pictureWindow').window('close');
 		}else{
-			alert("马上要发送的点的坐标"+evt.coordinate);
-			var coord = evt.coordinate.toString();
-			switch(EditStatus)
-			{
-			case "DELETE":
-				deletePoint(coord);
-			    break;
-			case "ADD":
-				addPoint(coord);
-			    break;
-			case "UPDATE":
+			//alert("马上要发送的点的坐标"+evt.coordinate);
+			if(EditStatus === "UPDATE"){
 				updatePoint(coord);
-				break;
-			default:
-			    alert("没有这种编辑状态");
 			}
+//			switch(EditStatus)
+//			{
+//			case "DELETE":
+//				deletePoint(coord);
+//			    break;
+//			case "ADD":
+//				addPoint(coord);
+//			    break;
+//			case "UPDATE":
+//				updatePoint(coord);
+//				break;
+//			default:
+//			    alert("没有这种编辑状态");
+//			}
 		}   
     });
 }
@@ -160,10 +164,10 @@ function showAttributes(json){
 		case "ADD":
 			if (selectedFeature.fid !== 'error') {
 				//alert("并未选中任何岛屿");
-			 alertMessager("提示","此处已有其它岛屿","info");
+				alertMessager("提示","此处已有其它岛屿","info");
 			}else{
 				editing = true;
-				alertMessager("提示","再次点击确认添加岛屿！","info");
+				confirmAddMessager();
 		 }
 		    break;
 		case "UPDATE":
@@ -183,11 +187,10 @@ function showAttributes(json){
 }
 
 function menuHandler(item){
+	EditStatus = "no";
+	editing = false;
 	if(item.name !== "exit"){
 		EditStatus = item.name;
-	}else{
-		EditStatus = "no";
-		editing = false;
 	}
 }
 $(function(){
@@ -231,6 +234,13 @@ function deletePoint(){
 		},
 		success : showEditResult,
 		dataType : "json"
+	});
+}
+function confirmAddMessager(){
+	$.messager.confirm('确认添加', '确认添加海岛?', function(r){
+		if (r){
+			addPoint(coord);
+		}
 	});
 }
 function addPoint(coord){
@@ -296,7 +306,7 @@ function thumbnailCallBack(json) {
 function showEditResult(json){
 	
 	location.reload() ;
-	alertMessager("提示","编辑成功","info");
+	//alertMessager("提示","编辑成功","info");
 }
 
 

@@ -324,6 +324,7 @@ public class shpEditAction {
 		return feature;
 	}
 
+	//命名空间：http://www.opengeospatial.net/China ，以下get...Post()方法多处用到www.opengeospatial.net，可考虑将www.opengeospatial.net写入web.xml
 	public static String getWFSTranscationUpdatePost(String layerName,
 			String fid, String attribute, String value) {
 		String[] wlStrings = layerName.split(":");

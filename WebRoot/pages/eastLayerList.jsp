@@ -68,22 +68,17 @@
 	}
 
 	function callBackInfo(json) {
-		topLeft("更新结果：" + json);
+		showMessager("更新结果：" + json);
 	}
-	function topLeft(msg) {
-		$.messager.show({
-			title : 'message',
-			msg : msg,
-			showType : 'show',
-			style : {
-				right : '',
-				left : 0,
-				top : document.body.scrollTop
-						+ document.documentElement.scrollTop,
-				bottom : ''
-			}
-		});
-	}
+
+	function showMessager(msg){
+			$.messager.show({
+				title:'修改结果',
+				msg:msg,
+				timeout:1000,
+				showType:'slide'
+			});
+		}
 	//  此函数已用刷新子页面代替
 	// 	function clearLayerList(){
 	// 		document.getElementById("layerList").innerHTML="";
