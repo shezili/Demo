@@ -1,10 +1,6 @@
 package dao;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
-
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -82,7 +78,7 @@ public class TabresultmetadataDAO {
 		log.debug("getting Tabresultmetadata instance with id: " + id);
 		try {
 			Tabresultmetadata instance = (Tabresultmetadata) getCurrentSession()
-					.get("dao.Tabresultmetadata", id);
+					.get("bean.Tabresultmetadata", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -94,7 +90,7 @@ public class TabresultmetadataDAO {
 		log.debug("finding Tabresultmetadata instance by example");
 		try {
 			List results = getCurrentSession()
-					.createCriteria("dao.Tabresultmetadata")
+					.createCriteria("bean.Tabresultmetadata")
 					.add(Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());
@@ -124,6 +120,7 @@ public class TabresultmetadataDAO {
 		return findByProperty(MAP_NAME, mapName);
 	}
 	
+	//Ä£ºý·ÖÒ³²éÑ¯
 	public List fuzzyQueryByMapName(Object mapName, int first,int max){
 		log.debug("fuzzy finding Tabresultmetadata instance with property: MAP_NAME"
 				+ ", value: " + mapName);

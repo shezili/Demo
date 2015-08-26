@@ -34,10 +34,15 @@ function queryMetaData(){
 			>
 			<thead>
 				<tr>
-					<th data-options="field:'mapName',width:200">mapName</th>
-					<th data-options="field:'creationDate',width:200">creationDate</th>
-					<th data-options="field:'inputDate',width:200">inputDate</th>
-					<th data-options="field:'latestmodiDate',width:200">latestmodiDate</th>
+					<th data-options="field:'mapName',width:100">成果数据名称</th>
+					<th data-options="field:'dataTypeDescr',width:100">成果数据类型</th>
+					<th data-options="field:'state',width:100">成果数据状态</th>
+					<th data-options="field:'resolution',width:100">分辨率/采样间距(米)</th>
+					<th data-options="field:'resultdatapeople',width:100">生产者</th>
+					<th data-options="field:'prostarttime',width:100">生产开始日期</th>
+					<th data-options="field:'proendtime',width:100">生产结束日期</th>
+					<th data-options="field:'scale',width:100">比例尺分母/分辨率(m)</th>
+					<th data-options="field:'distributeDeptName',width:100">分发单位</th>
 				</tr>
 			</thead>
 		</table>
@@ -46,7 +51,7 @@ function queryMetaData(){
 	<div id="toolbar" style="padding:5px;height:auto">
 <!-- 			<input class="easyui-textbox" style="width:10%;height:32px" id="mapName" onChange="queryMetaData()"> -->
 			<input type="text" id="mapName" onchange="queryMetaData()">
-	        <a href="#" onclick="queryMetaData()" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+	        <a href="#" onclick="queryMetaData()" class="easyui-linkbutton" iconCls="icon-search">查询</a>
 	</div>
 </body>
 </html>

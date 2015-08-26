@@ -70,6 +70,13 @@
 .icon-lock{
 	background:url('icons/lock.png') no-repeat center center;
 }
+.icon-smartart{
+	background:url('icons/smartart.png') no-repeat center center;
+}
+.icon-chart{
+	background:url('icons/chart.png') no-repeat center center;
+}
+
 
 
 .icon-mini-add{

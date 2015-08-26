@@ -57,6 +57,8 @@
 				<value>bean/TabRoleprivlege.hbm.xml</value>
 				<value>bean/TabUser.hbm.xml</value>
 				<value>bean/LawenforcementReport.hbm.xml</value>
+				<value>bean/Tabprotask.hbm.xml</value>
+				
 			</list>
 		</property>
 	</bean>
@@ -226,4 +228,5 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean></beans>
+	</bean>
+</beans>

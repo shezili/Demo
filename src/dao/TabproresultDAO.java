@@ -74,7 +74,7 @@ public class TabproresultDAO {
 		log.debug("getting Tabproresult instance with id: " + id);
 		try {
 			Tabproresult instance = (Tabproresult) getCurrentSession().get(
-					"dao.Tabproresult", id);
+					"bean.Tabproresult", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -86,7 +86,7 @@ public class TabproresultDAO {
 		log.debug("finding Tabproresult instance by example");
 		try {
 			List results = getCurrentSession()
-					.createCriteria("dao.Tabproresult")
+					.createCriteria("bean.Tabproresult")
 					.add(Example.create(instance)).list();
 			log.debug("find by example successful, result size: "
 					+ results.size());

@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import entity.Tabresultmetadata_1;
+import entity.ShowMetadata;
 import service.MetaDataService;
 
 public class MetaDataAction {
@@ -32,7 +32,7 @@ public class MetaDataAction {
 		int total = metaDataService.findSizeOfTabresultmetadata(mapName);
 		int first = (intPage - 1) * number;
 		int max = intPage*number < total ?  intPage*number : total;
-		List<Tabresultmetadata_1> pageList = metaDataService.findTabresultmetadataByMapName(mapName, first, max);
+		List<ShowMetadata> pageList = metaDataService.findTabresultmetadataByMapName(mapName, first, max);
 		Map<String, Object> jsonMap = new HashMap<String, Object>();
 		jsonMap.put("total", total);
 		jsonMap.put("rows", pageList);

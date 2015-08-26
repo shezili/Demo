@@ -25,17 +25,11 @@
         <property name="projectlocation" type="java.lang.String">
             <column name="PROJECTLOCATION" length="20" />
         </property>
-        <property name="latlon" type="java.lang.String">
-            <column name="LATLON" length="50" />
-        </property>
         <property name="description" type="java.lang.String">
             <column name="DESCRIPTION" length="200" />
         </property>
         <property name="pictureUrl" type="java.lang.String">
             <column name="PICTURE_URL" length="30" />
-        </property>
-        <property name="feedback" type="java.lang.String">
-            <column name="FEEDBACK" length="1000" />
         </property>
         <property name="backprojectname" type="java.lang.String">
             <column name="BACKPROJECTNAME" length="20" />
@@ -51,6 +45,12 @@
         </property>
         <property name="route" type="java.lang.String">
             <column name="ROUTE" length="40" />
+        </property>
+        <property name="latlon" type="java.lang.String">
+            <column name="LATLON" length="50" />
+        </property>
+        <property name="feedback" type="java.lang.String">
+            <column name="FEEDBACK" length="1000" />
         </property>
     </class>
 </hibernate-mapping>

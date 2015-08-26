@@ -14,15 +14,15 @@ public class LawenforcementReport implements java.io.Serializable {
 	private String airport;
 	private String projectname;
 	private String projectlocation;
-	private String latlon;
 	private String description;
 	private String pictureUrl;
-	private String feedback;
 	private String backprojectname;
 	private String marineunit;
 	private String city;
 	private String islegal;
 	private String route;
+	private String latlon;
+	private String feedback;
 
 	// Constructors
 
@@ -38,24 +38,24 @@ public class LawenforcementReport implements java.io.Serializable {
 	/** full constructor */
 	public LawenforcementReport(String reportnumber, String datestr,
 			String machinenumber, String airport, String projectname,
-			String projectlocation, String latlon, String description,
-			String pictureUrl, String feedback, String backprojectname,
-			String marineunit, String city, String islegal, String route) {
+			String projectlocation, String description, String pictureUrl,
+			String backprojectname, String marineunit, String city,
+			String islegal, String route, String latlon, String feedback) {
 		this.reportnumber = reportnumber;
 		this.datestr = datestr;
 		this.machinenumber = machinenumber;
 		this.airport = airport;
 		this.projectname = projectname;
 		this.projectlocation = projectlocation;
-		this.latlon = latlon;
 		this.description = description;
 		this.pictureUrl = pictureUrl;
-		this.feedback = feedback;
 		this.backprojectname = backprojectname;
 		this.marineunit = marineunit;
 		this.city = city;
 		this.islegal = islegal;
 		this.route = route;
+		this.latlon = latlon;
+		this.feedback = feedback;
 	}
 
 	// Property accessors
@@ -108,14 +108,6 @@ public class LawenforcementReport implements java.io.Serializable {
 		this.projectlocation = projectlocation;
 	}
 
-	public String getLatlon() {
-		return this.latlon;
-	}
-
-	public void setLatlon(String latlon) {
-		this.latlon = latlon;
-	}
-
 	public String getDescription() {
 		return this.description;
 	}
@@ -130,14 +122,6 @@ public class LawenforcementReport implements java.io.Serializable {
 
 	public void setPictureUrl(String pictureUrl) {
 		this.pictureUrl = pictureUrl;
-	}
-
-	public String getFeedback() {
-		return this.feedback;
-	}
-
-	public void setFeedback(String feedback) {
-		this.feedback = feedback;
 	}
 
 	public String getBackprojectname() {
@@ -180,18 +164,20 @@ public class LawenforcementReport implements java.io.Serializable {
 		this.route = route;
 	}
 
-	@Override
-	public String toString() {
-		return "LawenforcementReport [reportnumber=" + reportnumber
-				+ ", datestr=" + datestr + ", machinenumber=" + machinenumber
-				+ ", airport=" + airport + ", projectname=" + projectname
-				+ ", projectlocation=" + projectlocation + ", latlon=" + latlon
-				+ ", description=" + description + ", pictureUrl=" + pictureUrl
-				+ ", feedback=" + feedback + ", backprojectname="
-				+ backprojectname + ", marineunit=" + marineunit + ", city="
-				+ city + ", islegal=" + islegal + ", route=" + route + "]";
+	public String getLatlon() {
+		return this.latlon;
 	}
-	
-	
+
+	public void setLatlon(String latlon) {
+		this.latlon = latlon;
+	}
+
+	public String getFeedback() {
+		return this.feedback;
+	}
+
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
+	}
 
 }
