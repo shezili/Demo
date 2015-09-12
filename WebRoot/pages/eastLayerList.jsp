@@ -30,7 +30,7 @@
 		$("#layerList").append(
 				"<input class='visible' type='checkbox' checked='checked' "
 						+ "value=" + layerName + " onchange="
-						+ "parent.window.frames[" + "'childPage'"
+						+ "parent.window.frames[" + "'cdname'"
 						+ "].selectLayer(this.value)" + " />" + layerName
 						+ "<br/>");
 	}

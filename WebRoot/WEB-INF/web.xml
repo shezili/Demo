@@ -13,6 +13,10 @@
     <param-name>WORKSPACE</param-name>
     <param-value>China</param-value>
   </context-param>
+    <context-param>
+    <param-name>METADATA</param-name>
+    <param-value>metadata</param-value>
+  </context-param>
   <context-param>
     <param-name>FILEATTRIBUTE</param-name>
     <param-value>THUMBNAIL</param-value>

@@ -15,7 +15,7 @@
 			function testindex(){
 				 alert("123");
 			}
-	
+
 		</script>
 		<style type="text/css">
 			[data-options],[title]{
@@ -57,7 +57,10 @@
 							</tr>
 							<tr>
 								<td>
-									<a class="easyui-linkbutton c9" style="width:70px" onclick = "changesrc('China.jsp');">矢量编辑</a>
+									<a class="easyui-linkbutton c9" style="width:70px" onclick = "addPanel('矢量编辑', 'China.jsp', 'csid', 'csname');">矢量编辑</a>
+								</td>	
+								<td>
+									<a class="easyui-linkbutton c10" style="width:70px" onclick = "addPanel('bottom', 'bottom.jsp', 'cdid', 'cdname');">底图</a>
 								</td>						
 							</tr>
 					</table>
@@ -68,10 +71,15 @@
 					<table style="width:170px;height:220px" border="0" >
 							<tr>
 								<td>									
-									<a class="easyui-linkbutton c1" style="width:70px" onclick="changesrc('osfile.jsp');">添加数据</a>
+									<a class="easyui-linkbutton c1" style="width:70px" onclick="addPanel('添加数据', 'osfile.jsp', 'htid', 'htname');">添加数据</a>
 								</td>
 								<td>
-								    <a class="easyui-linkbutton c2" style="width:70px" onclick="changesrc('metadata.jsp');">数据查询</a>
+								    <a class="easyui-linkbutton c2" style="width:70px" onclick="addPanel('数据查询', 'metadata.jsp', 'hsid', 'hsname');">数据查询</a>
+								</td>
+							</tr>
+							<tr>
+								<td>									
+									<a class="easyui-linkbutton c1" style="width:70px" onclick="addPanel('测试', 'test.jsp', 'hcid', 'hcname');">测试按钮</a>
 								</td>
 							</tr>
 					</table>
@@ -90,15 +98,18 @@
 				</div>
 			</div>
 		</div>
-		<div data-options="region:'center',title:'数据显示',iconCls:'icon-search'">
-<!-- 			<div class="easyui-tabs" style="width:100%;height:550px"> -->
-<!-- 				<div title="Image Display" style="padding:10px"> -->
-					<iframe id="innerpage" name="childPage" src="" scrolling="no" height = "99%" width = "99%"></iframe>
+		<div data-options="region:'center'">
+			<div id="dis_tabs" class="easyui-tabs"  fit="true" data-options="tools:'#tab-tools'">
+<!-- 				<div title="Image Display" style="padding:5px"> -->
+<!-- 					<iframe id="innerpage" name="childPage" src="" scrolling="no" height = "99%" width = "99%"></iframe> -->
 <!-- 				</div> -->
 <!-- 				<div title="Catalog" style="padding:10px"> -->
 <!-- 					<iframe src="Catalog!displayCatalog?pageNo=1"  scrolling="no" height = "100%" width = "100%"></iframe> -->
 <!-- 				</div> -->
 <!-- 			</div> -->
+		</div>
+		<div id="tab-tools">
+			<a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="removePanel()"></a>
 		</div>
 	</div>
 </body>

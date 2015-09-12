@@ -63,4 +63,5 @@
 	<include file="struts/struts_metadata.xml" />
 	<include file="struts/struts_user.xml" />
 	<include file="struts/struts_shp.xml" />
+	<include file="struts/struts_locateLayer.xml" />
 </struts>    
